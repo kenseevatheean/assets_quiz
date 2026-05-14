@@ -3,61 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IVA Mastery Training - Security Hardened</title>
+    <title>Asset Realisation QB</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; user-select: none; -webkit-user-select: none; }
-        .option-btn:disabled { cursor: not-allowed; opacity: 0.8; }
-        .correct { background-color: #10b981 !important; color: white !important; border-color: #059669 !important; transform: scale(1.02); }
-        .incorrect { background-color: #ef4444 !important; color: white !important; border-color: #dc2626 !important; }
-        .animate-fade { animation: fadeIn 0.4s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .progress-transition { transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-        .timer-warning { color: #ef4444; animation: pulse 1s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
-        input:focus { outline: none; border-color: #3b82f6; ring: 2px #3b82f6; }
-        .security-badge { background: #fee2e2; color: #991b1b; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: bold; text-transform: uppercase; }
+        :root {
+            color-scheme: light;
+            --bg: #f6f8fb;
+            --surface: #ffffff;
+            --surface-muted: #f8fafc;
+            --text: #111827;
+            --muted: #64748b;
+            --line: #d8e0ea;
+            --primary: #2563eb;
+            --primary-strong: #1d4ed8;
+            --success: #059669;
+            --danger: #dc2626;
+            --warning: #d97706;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            scroll-behavior: smooth;
+            user-select: none;
+            -webkit-user-select: none;
+            background:
+                radial-gradient(circle at top left, rgba(37, 99, 235, 0.07), transparent 30rem),
+                linear-gradient(180deg, #ffffff 0%, var(--bg) 38%, var(--bg) 100%);
+            color: var(--text);
+            letter-spacing: 0;
+        }
+        .app-shell { min-height: 100vh; }
+        .app-header {
+            background: rgba(255, 255, 255, 0.94);
+            border-bottom: 1px solid var(--line);
+            backdrop-filter: blur(14px);
+        }
+        .panel {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            box-shadow: 0 18px 45px rgba(15, 23, 42, 0.07);
+        }
+        .mini-panel {
+            background: var(--surface-muted);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+        }
+        button, input, select {
+            border-radius: 8px;
+        }
+        .option-btn:disabled { cursor: not-allowed; opacity: 0.95; }
+        .option-btn { position: relative; overflow: hidden; }
+        .option-btn:hover .option-letter { background: #dbeafe; color: var(--primary); }
+        .correct { background-color: #ecfdf5 !important; color: #065f46 !important; border-color: var(--success) !important; transform: translateY(-1px); }
+        .incorrect { background-color: #fef2f2 !important; color: #991b1b !important; border-color: var(--danger) !important; }
+        .correct .option-letter { background: var(--success) !important; color: white !important; border-color: var(--success) !important; }
+        .incorrect .option-letter { background: var(--danger) !important; color: white !important; border-color: var(--danger) !important; }
+        .animate-fade { animation: fadeIn 0.22s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .progress-transition { transition: width 0.35s ease; }
+        .timer-warning { color: var(--danger) !important; animation: pulse 1s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.13);
+        }
+        .security-badge {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #1d4ed8;
+            padding: 4px 9px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .exam-button {
+            min-height: 52px;
+            border: 1px solid var(--primary);
+            background: var(--primary);
+            color: white;
+            font-weight: 800;
+            transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+        }
+        .exam-button:hover {
+            background: var(--primary-strong);
+            border-color: var(--primary-strong);
+            transform: translateY(-1px);
+        }
+        .exam-button-secondary {
+            min-height: 52px;
+            border: 1px solid var(--line);
+            background: white;
+            color: var(--text);
+            font-weight: 800;
+            transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
+        }
+        .exam-button-secondary:hover {
+            background: #f8fafc;
+            border-color: #b6c4d6;
+            transform: translateY(-1px);
+        }
+        .exam-label {
+            display: inline-block;
+            color: var(--muted);
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+        .exam-focus:focus-visible {
+            outline: 3px solid rgba(37, 99, 235, 0.32);
+            outline-offset: 3px;
+        }
+        .muted-rule { border-color: var(--line); }
+        .stat-card {
+            background: #f8fafc;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
     </style>
 </head>
-<body class="bg-slate-50 min-h-screen text-slate-900" oncontextmenu="return false;">
+<body class="app-shell" oncontextmenu="return false;">
 
-    <header class="bg-white border-b sticky top-0 z-50 shadow-sm">
-        <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="flex flex-col">
-                    <h1 class="text-lg font-bold text-slate-800 leading-tight flex items-center gap-2">
-                        IVA Training Portal
-                        <span class="security-badge">Audit Active</span>
-                    </h1>
-                    <span id="current-user-display" class="text-[10px] uppercase tracking-widest text-blue-600 font-bold">Waiting for Login...</span>
+    <header class="app-header sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8 py-4 grid grid-cols-12 gap-4 items-center">
+            <div class="col-span-8 md:col-span-9">
+                <div class="flex items-center gap-3">
+                    <span class="security-badge">Audit Active</span>
+                    <span id="current-user-display" class="hidden sm:inline text-xs font-black uppercase tracking-[0.18em]">Waiting for Candidate...</span>
                 </div>
+                <h1 class="mt-2 text-2xl sm:text-3xl font-black tracking-tight leading-none text-slate-950">Asset Realisation Training</h1>
             </div>
-            <div class="flex items-center gap-4">
-                <div id="timer-display" class="hidden font-mono font-bold text-lg px-3 py-1 bg-slate-100 rounded-lg text-slate-700 border border-slate-200"></div>
-                <div id="stats" class="text-sm font-semibold text-blue-600"></div>
+            <div class="col-span-4 md:col-span-3 flex flex-col items-end gap-2">
+                <div id="timer-display" class="hidden font-mono font-black text-base sm:text-xl px-3 py-2 bg-white text-slate-900 border border-slate-200 rounded-lg"></div>
+                <div id="stats" class="text-xs sm:text-sm font-black uppercase tracking-[0.12em] text-blue-700"></div>
             </div>
         </div>
-        <div id="progress-container" class="hidden h-1.5 w-full bg-slate-100">
+        <div id="progress-container" class="hidden h-2 w-full bg-slate-100 border-t border-slate-200">
             <div id="progress-bar" class="h-full bg-blue-600 progress-transition" style="width: 0%"></div>
         </div>
     </header>
 
-    <main class="max-w-4xl mx-auto px-4 py-8">
+    <main class="max-w-7xl mx-auto px-5 sm:px-8 py-8 sm:py-12">
         <div id="auth-view" class="animate-fade">
-            <div class="bg-white p-8 md:p-12 rounded-3xl shadow-xl border border-slate-100 text-center max-w-md mx-auto">
-                <div class="w-20 h-20 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-1.196-1.22c-1.238-1.04-2.318-2.23-3.211-3.513m12.73 3.513c.992-1.15 1.841-2.426 2.527-3.814M15.666 20.019a11.038 11.038 0 002.247-2.753m-17.714-2.753c.73 2.636 2.08 5.027 3.869 7.004M15 11a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
+            <div class="panel grid grid-cols-1 lg:grid-cols-12 min-h-[520px]">
+                <div class="lg:col-span-7 p-8 sm:p-12 bg-slate-50 border-b lg:border-b-0 lg:border-r border-slate-200">
+                    <span class="exam-label">Candidate setup</span>
+                    <h2 class="mt-5 text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-slate-950">Enter candidate name</h2>
+                    <p class="mt-5 max-w-xl text-slate-600 leading-relaxed font-medium">Start a focused assessment session. Your name appears on the home page and final results report.</p>
+                    <div class="mt-10 grid grid-cols-3 gap-3 max-w-sm">
+                        <div class="h-2 rounded-full bg-blue-600"></div>
+                        <div class="h-2 rounded-full bg-slate-300"></div>
+                        <div class="h-2 rounded-full bg-slate-300"></div>
+                    </div>
                 </div>
-                <h2 class="text-2xl font-bold text-slate-900 mb-2">Staff Entrance</h2>
-                <p class="text-slate-500 mb-8 text-sm">Session activity is monitored. Please enter your name to start the audit trail.</p>
-                <input type="text" id="staff-name-input" placeholder="Enter Full Name" class="w-full p-4 rounded-xl border-2 border-slate-100 mb-4 font-semibold text-center focus:border-blue-500 transition-all">
-                <button onclick="window.quizApp.login()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-bold shadow-lg transition-all active:scale-95">
-                    Authorize Session
-                </button>
+                <div class="lg:col-span-5 p-8 sm:p-12 flex flex-col justify-end">
+                    <span class="exam-label">Start here</span>
+                    <p class="mt-4 mb-8 text-lg sm:text-xl font-bold leading-relaxed text-slate-900">Enter candidate name to continue to the home page.</p>
+                    <div class="relative mb-4">
+                        <input type="text" id="staff-name-input" placeholder="Candidate name" class="w-full p-4 border border-slate-200 bg-white text-slate-950 placeholder:text-slate-400 font-semibold transition-all exam-focus">
+                    </div>
+                    <button onclick="window.quizApp.login()" class="exam-button exam-focus w-full px-6 py-4">
+                        Continue to Home
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -67,23 +188,23 @@
         </div>
 
         <div id="quiz-view" class="hidden animate-fade">
-            <div class="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden glass-card">
-                <div class="p-6 md:p-10">
-                    <div id="q-meta" class="flex items-center justify-between mb-6">
-                        <span id="q-category" class="bg-blue-50 text-blue-700 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest border border-blue-100">Category</span>
-                        <span id="q-count" class="text-slate-400 text-sm font-medium">Q1 / 25</span>
+            <div class="panel overflow-hidden">
+                <div class="p-5 sm:p-8 md:p-10">
+                    <div id="q-meta" class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-7 pb-5 border-b border-slate-200">
+                        <span id="q-category" class="w-fit bg-blue-50 text-blue-700 text-[11px] font-black px-3 py-2 uppercase tracking-[0.12em] rounded-full border border-blue-100">Category</span>
+                        <span id="q-count" class="text-slate-500 text-sm font-bold">Q1 / 25</span>
                     </div>
 
-                    <h2 id="q-text" class="text-xl md:text-2xl font-bold text-slate-800 leading-tight mb-8">Loading question...</h2>
+                    <h2 id="q-text" class="text-2xl md:text-4xl font-black tracking-tight text-slate-950 leading-tight mb-8">Loading question...</h2>
 
                     <div id="options" class="grid grid-cols-1 gap-3"></div>
 
                     <div id="feedback" class="hidden mt-8 space-y-4 animate-fade">
-                        <div id="rationale-box" class="p-5 rounded-2xl border bg-slate-50 border-slate-200 shadow-inner">
-                            <span class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Technical Rationale</span>
-                            <p id="rationale-text" class="text-slate-700 text-sm leading-relaxed"></p>
+                        <div id="rationale-box" class="mini-panel p-5">
+                            <span class="block exam-label mb-2">Technical Rationale</span>
+                            <p id="rationale-text" class="text-slate-700 text-sm leading-relaxed font-medium"></p>
                         </div>
-                        <button id="next-btn" class="w-full bg-slate-900 hover:bg-black text-white py-4 rounded-2xl font-bold shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2">
+                        <button id="next-btn" class="exam-button exam-focus w-full px-6 py-4 flex items-center justify-center gap-2">
                             <span>Continue to Next</span>
                         </button>
                     </div>
@@ -91,56 +212,191 @@
             </div>
         </div>
 
-        <div id="results-view" class="hidden animate-fade text-center max-w-lg mx-auto">
-            <div class="bg-white p-10 rounded-3xl shadow-2xl border border-slate-100 glass-card">
-                <div id="res-icon" class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"></div>
-                <h2 id="res-title" class="text-3xl font-black text-slate-900 mb-2">Audit Complete</h2>
-                <p id="res-staff-name" class="text-blue-600 font-bold mb-1"></p>
-                <p id="res-module-name" class="text-slate-500 font-medium mb-8 italic"></p>
+        <div id="results-view" class="hidden animate-fade max-w-4xl mx-auto">
+            <div class="panel">
+                <div class="grid grid-cols-1 md:grid-cols-12">
+                    <div class="md:col-span-5 p-8 sm:p-10 bg-slate-50 border-b md:border-b-0 md:border-r border-slate-200">
+                        <span class="exam-label">Outcome</span>
+                        <div id="res-icon" class="w-16 h-16 flex items-center justify-center mt-8 mb-8"></div>
+                        <h2 id="res-title" class="text-4xl sm:text-5xl font-black tracking-tight leading-tight text-slate-950">Audit Complete</h2>
+                    </div>
+                    <div class="md:col-span-7 p-8 sm:p-10">
+                <p id="res-staff-name" class="inline-block bg-blue-50 text-blue-700 font-black uppercase tracking-[0.12em] mb-2 px-3 py-1 rounded-full border border-blue-100"></p>
+                <p id="res-module-name" class="text-slate-500 font-bold mb-8"></p>
                 
-                <div class="bg-slate-50 rounded-2xl p-6 mb-4 border border-slate-100">
-                    <span class="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-2">Accuracy Score</span>
-                    <div class="text-6xl font-black text-slate-800"><span id="res-score">0</span><span class="text-slate-300">/</span><span id="res-total">0</span></div>
-                    <p id="res-msg" class="mt-4 text-blue-600 font-bold text-lg"></p>
+                <div class="mini-panel p-6 mb-4">
+                    <span class="exam-label block mb-3">Accuracy Score</span>
+                    <div class="text-6xl sm:text-7xl font-black tracking-tight text-slate-950"><span id="res-score">0</span><span class="text-slate-300">/</span><span id="res-total">0</span></div>
+                    <p id="res-msg" class="mt-4 text-blue-700 font-black text-lg"></p>
                 </div>
 
-                <div id="audit-metadata" class="text-left mb-8 space-y-2 text-[10px] text-slate-400 font-medium bg-slate-100 p-4 rounded-xl font-mono">
-                    <div class="flex justify-between"><span>ATTEMPT_HASH:</span> <span id="audit-id" class="text-slate-600"></span></div>
-                    <div class="flex justify-between"><span>TAB_FOCUS_BLUR:</span> <span id="audit-blur" class="text-red-500 font-bold"></span></div>
-                    <div class="flex justify-between"><span>TIMESTAMP:</span> <span id="audit-time" class="text-slate-600"></span></div>
+                <div id="audit-metadata" class="mb-8 space-y-2 text-[10px] font-bold bg-slate-950 text-slate-300 p-4 rounded-lg font-mono uppercase tracking-wide">
+                    <div class="flex justify-between gap-4"><span class="text-slate-400">ATTEMPT_HASH:</span> <span id="audit-id" class="text-white"></span></div>
+                    <div class="flex justify-between"><span class="text-slate-400">TAB_FOCUS_BLUR:</span> <span id="audit-blur" class="text-red-400 font-bold"></span></div>
+                    <div class="flex justify-between gap-4"><span class="text-slate-400">TIMESTAMP:</span> <span id="audit-time" class="text-white"></span></div>
                 </div>
 
-                <div id="focus-report" class="text-left mb-8">
-                    <h4 class="text-sm font-bold text-slate-800 mb-4 border-b pb-2">Category Performance Analysis</h4>
+                <div id="focus-report" class="mb-8">
+                    <h4 class="text-sm font-black text-slate-950 mb-4 border-b border-slate-200 pb-2">Category Performance Analysis</h4>
                     <div id="focus-list" class="space-y-2"></div>
                 </div>
 
-                <button onclick="window.quizApp.reset()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl font-bold shadow-lg transition-all">
+                <button onclick="window.quizApp.reset()" class="exam-button exam-focus w-full px-6 py-4">
                     Finalize & Return to Dashboard
                 </button>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
 
     <script>
         (function() {
-            // Obfuscated data storage (Base64) - This represents the massive 200 question bank.
-            // In production, we'd store the actual encoded string. For this demo, we use a reference.
-            const RAW_DATA = [
-                // Bank 1 & 2 combined logic (Mapped to 200 questions provided previously)
-                { c: 'Deceased / PPI', q: "In a deceased rented case, which item should be checked?", o: ["Equity valuation", "Life insurance and pension", "Gambling losses", "RX4 undertaking"], a: 1, r: "Staff must verify potential funds from life insurance or pensions in deceased cases." },
-                { c: 'Tax Rebates', q: "If a PAYE tax rebate relates to a tax year before the IVA was approved, how should it be treated?", o: ["50% due into the IVA", "Full amount deemed an asset of the IVA", "Debtor keeps all of it", "Only £500 is payable"], a: 1, r: "Rebates for periods before approval are considered existing assets of the IVA." },
-                { c: 'Equity & M54', q: "What is equity?", o: ["The debtor’s income after tax", "The debtor’s share of property value after secured borrowing is deducted", "The debtor’s monthly contribution", "The amount of gambling winnings retained"], a: 1, r: "Equity is property value minus all secured debt." },
-                { c: 'Protocols', q: "Protocol 2025 changes the approach by stating there is:", o: ["No month 54 review", "A compulsory remortgage in month 54", "A compulsory 12-month extension", "A £500 windfall allowance only"], a: 0, r: "Protocol 2025 simplifies the process by removing the M54 review." },
-                { c: 'Gambling & Car Sales', q: "Under the IVA terms for gambling, how much can the client retain first?", o: ["£100", "£250", "£500", "£1,000"], a: 2, r: "The first £500 of net winnings can be kept by the debtor." },
-                { c: 'Self-Employed', q: "If HMRC is a creditor in a self-employed debtor’s IVA, the rebate should be:", o: ["Paid into the IVA in full", "Split equally with the debtor automatically", "Treated as a gift", "Ignored unless over £5,000"], a: 0, r: "HMRC uses their right to offset if they are a creditor." }
-                // ... (The logic extends to all 200 questions provided in user history)
-            ];
-
-            // Add remaining 194 questions (Condensed for space in this code block, but fully logically mapped)
-            // [Note: All 200 questions from the user's prompt are mapped into this 'RAW_DATA' structure internally]
+            // Question bank imported from AD_v1.html and adapted for the secured audit app.
+        const SOURCE_DATA = [
+            // Bank 1
+            { category: 'Deceased / PPI', q: "In a deceased rented case, which item should be checked?", options: ["Equity valuation", "Life insurance and pension", "Gambling losses", "RX4 undertaking"], correct: 1, rationale: "Staff must verify potential funds from life insurance or pensions in deceased cases." },
+            { category: 'Deceased / PPI', q: "In a deceased rented case, which document is required?", options: ["Letter of authority only", "Mortgage offer", "Death certificate", "Completion statement"], correct: 2, rationale: "A death certificate is the primary requirement to verify the status of the deceased." },
+            { category: 'Deceased / PPI', q: "For PPI on live cases, what must be checked?", options: ["All funds due in", "Whether the IVA lasted 72 months", "Whether equity is above £5,000", "Whether the debtor is under 60"], correct: 0, rationale: "On live cases, you must ensure all PPI funds due are accounted for." },
+            { category: 'Deceased / PPI', q: "For PPI live cases, which documents may be requested?", options: ["Death certificate, RX4, valuation", "Financial response letter, Letter of Authority, Invoice", "Payslips, bank statements, proof of rent", "Remortgage evidence only"], correct: 1, rationale: "Financial response letters and Letters of Authority are standard for processing PPI claims." },
+            { category: 'Deceased / PPI', q: "For PPI / financial mis-selling on closed cases, what should be checked first?", options: ["Whether the case is a Protocol 2025 case", "Whether it is a defined assets or all assets IVA proposal", "Whether the debtor has gambling winnings", "Whether the property was sold"], correct: 1, rationale: "The wording of the original proposal (defined vs all assets) dictates if PPI remains in the trust after closure." },
+            { category: 'Deceased / PPI', q: "In closed PPI / financial mis-selling cases, why might interest not be held?", options: ["Because closed cases never receive funds", "Because proposal and trust wording may affect whether funds are due", "Because all PPI belongs to the debtor automatically", "Because HMRC must always receive the funds"], correct: 1, rationale: "The specific trust wording at the time of closure determines entitlement." },
+            { category: 'Deceased / PPI', q: "Which clause should be checked in closed PPI / financial mis-selling cases?", options: ["Financial mis-selling claims clause", "Month 54 equity clause only", "Car exclusion clause only", "Gambling clause only"], correct: 0, rationale: "Look specifically for the mis-selling or redress clause in the proposal." },
+            { category: 'Deceased / PPI', q: "What should be checked regarding the trust in closed PPI / financial mis-selling cases?", options: ["Whether the trust survives termination and/or closure", "Whether the debtor has pension funds", "Whether the debtor has moved address", "Whether the vehicle has been sold"], correct: 0, rationale: "Confirming if the trust survives closure is vital for claiming funds." },
+            { category: 'Deceased / PPI', q: "Which type of variation is especially relevant when checking whether the trust was broken on closure?", options: ["Annual review variation", "Full and final variation", "Income and expenditure variation", "Property valuation variation"], correct: 1, rationale: "A Full and Final (F&F) variation often includes specific terms about ending the trust." },
+            { category: 'Deceased / PPI', q: "If creditors were paid 100p/£ in a closed PPI / financial mis-selling case, what should happen to the money?", options: ["Send it to HMRC", "Send it to creditors again", "Send it to the debtor", "Hold it indefinitely"], correct: 2, rationale: "Once creditors are paid in full, any surplus redress belongs to the debtor." },
             
-            const SESSION_KEY = 'iva_audit_secure_v2';
+            { category: 'Tax Rebates', q: "If a PAYE tax rebate relates to a tax year before the IVA was approved, how should it be treated?", options: ["50% due into the IVA", "Full amount deemed an asset of the IVA", "Debtor keeps all of it", "Only £500 is payable"], correct: 1, rationale: "Rebates for periods before approval are considered existing assets of the IVA." },
+            { category: 'Tax Rebates', q: "If a PAYE tax rebate relates to a year when the debtor was in the IVA, what rule applies?", options: ["Windfall rule", "Additional income rule", "Property sale rule", "Month 54 rule"], correct: 1, rationale: "During the IVA, tax rebates are treated as additional income earned during that period." },
+            { category: 'Tax Rebates', q: "Under the PAYE additional income rule, what percentage is due into the IVA?", options: ["25%", "50%", "75%", "100%"], correct: 1, rationale: "The standard additional income rule captures 50% of the surplus." },
+            { category: 'Tax Rebates', q: "If a client wants to keep money that falls under the additional income rule, what may be needed?", options: ["Death certificate", "Variation", "RX4", "Completion statement"], correct: 1, rationale: "Departing from standard rules requires a formal variation approved by creditors." },
+            { category: 'Tax Rebates', q: "If a debtor receives a PAYE tax rebate, what may this indicate?", options: ["They have been overpaid monthly income", "They may have received less income than they should have", "They have sold a vehicle", "Their IVA must be closed immediately"], correct: 1, rationale: "A rebate usually means too much tax was paid, potentially reducing their net monthly income." },
+            { category: 'Tax Rebates', q: "After a PAYE rebate is identified, what should be considered moving forward?", options: ["Whether a new GTHP figure should be set", "Whether to remove the property restriction", "Whether to request two remortgage attempts", "Whether to waive all contributions"], correct: 0, rationale: "A rebate suggests the monthly take-home pay might change, requiring a new review." },
+            { category: 'Tax Rebates', q: "If a CIS tax rebate relates to a tax year before the IVA was approved, it may be treated as:", options: ["A gift", "An IVA asset", "A gambling win", "A property sale"], correct: 1, rationale: "Like PAYE, pre-IVA CIS rebates are assets belonging to the arrangement." },
+            { category: 'Tax Rebates', q: "If a CIS tax rebate is from a year when the debtor was in the IVA, it is generally caught under:", options: ["Additional income rule", "Full and final rule", "Death claim rule", "Protocol 2025 rule"], correct: 0, rationale: "Rebates during the IVA usually trigger the additional income 50% rule." },
+            { category: 'Tax Rebates', q: "Why is a CIS rebate usually treated as additional income during the IVA?", options: ["Because the debtor was paying the wrong amount of tax", "Because HMRC is always a creditor", "Because CIS rebates are always windfalls", "Because all CIS refunds are excluded assets"], correct: 0, rationale: "It corrects the income level for that year, making it additional earned income." },
+            { category: 'Tax Rebates', q: "In CIS cases, if the debtor had received the money at the time, what would usually have been requested?", options: ["100% of the rebate", "50% of anything over 10% of normal monthly income", "£500 only", "Nothing"], correct: 1, rationale: "Standard additional income rules (10% + 50/50 split) apply." },
+            { category: 'Tax Rebates', q: "Why might the full amount of a CIS tax rebate need to be paid into the IVA?", options: ["If the proposal shows tax rebates as assets coming into the IVA each year", "If the debtor is under 60", "If the property has no equity", "If the IVA is Protocol 2025"], correct: 0, rationale: "Specific proposal wording can override general rules and claim the full rebate as an asset." },
+            { category: 'Tax Rebates', q: "What determines whether a CIS tax rebate is treated as full asset or additional income?", options: ["The debtor’s age only", "How the proposal is drafted", "The car value only", "Whether the debtor gambled"], correct: 1, rationale: "The specific language in the proposal is the deciding factor." },
+
+            { category: 'Self-Employed', q: "If a self-employed debtor receives a tax rebate for a tax year before the IVA was approved, what is due?", options: ["Nothing", "50% only", "Full amount into the IVA", "First £500 only"], correct: 2, rationale: "Pre-IVA assets belong 100% to the arrangement." },
+            { category: 'Self-Employed', q: "For a self-employed debtor, what must be checked regarding HMRC?", options: ["Whether HMRC is a creditor in the IVA", "Whether HMRC has issued a death certificate", "Whether HMRC owns the property", "Whether HMRC approved the car sale"], correct: 0, rationale: "If HMRC is a creditor, they have a right to offset or claim the full rebate." },
+            { category: 'Self-Employed', q: "If a self-employed debtor has HMRC listed as a creditor, how should the tax rebate be treated?", options: ["Debtor keeps it", "Full rebate paid into the IVA", "50% paid into the IVA", "£500 deduction applied"], correct: 1, rationale: "Creditor HMRC claims the full rebate under standard terms." },
+            { category: 'Self-Employed', q: "If a self-employed debtor has HMRC not listed as a creditor, how should the tax rebate usually be treated?", options: ["As additional income", "As a deceased estate asset", "As property equity", "As gambling winnings"], correct: 0, rationale: "Without HMRC as a creditor, it defaults to the additional income rule." },
+            { category: 'Self-Employed', q: "If a self-employed debtor needs to use part of a tax rebate for business expenses, what should be done?", options: ["Allow it automatically", "Get details and evidence and raise an IP Query", "Pay the full rebate to the debtor", "Close the IVA"], correct: 1, rationale: "Business expenses require verification and approval from the Insolvency Practitioner (IP)." },
+            { category: 'Self-Employed', q: "Which of the following is most relevant before deciding how to treat a self-employed tax rebate?", options: ["Whether the debtor drives a car", "Whether HMRC is a creditor", "Whether the debtor has a pension", "Whether the IVA has a restriction"], correct: 1, rationale: "HMRC creditor status is the primary pivot point for treatment." },
+
+            { category: 'Equity & M54', q: "What is equity?", options: ["The debtor’s income after tax", "The debtor’s share of property value after secured borrowing is deducted", "The debtor’s monthly contribution", "The amount of gambling winnings retained"], correct: 1, rationale: "Equity is the value remaining in the property after all mortgages/loans are paid." },
+            { category: 'Equity & M54', q: "To calculate equity, what is deducted from the property value?", options: ["IVA fees only", "Secured borrowing such as mortgage, secured loan, or charge", "Monthly income", "Tax rebate"], correct: 1, rationale: "Secured debts must be cleared first before equity is calculated." },
+            { category: 'Equity & M54', q: "After deducting secured borrowing from property value, what happens if there are joint owners?", options: ["The full equity goes to one owner", "The equity is divided between the owners", "The equity is ignored", "The property is sold automatically"], correct: 1, rationale: "Equity is split according to ownership shares (usually 50/50)." },
+            { category: 'Equity & M54', q: "In standard homeowner proposals, when is property usually valued?", options: ["Month 12", "Month 36", "Month 54", "Month 72"], correct: 2, rationale: "Month 54 is the standard milestone for equity review in a 5-year IVA." },
+            { category: 'Equity & M54', q: "Why is month 54 commonly used for property valuation?", options: ["It is 6 months before the end of a standard 60-month IVA", "It is always the completion month", "It is when all cars are sold", "It is when HMRC claims are removed"], correct: 0, rationale: "It allows enough time to process equity release or extensions before the IVA ends." },
+            { category: 'Equity & M54', q: "What should be remembered about property value at month 54?", options: ["It always stays the same as at proposal stage", "It may have changed since the proposal was drafted", "It is ignored if the debtor is under 60", "It is always less than £5,000"], correct: 1, rationale: "Property values fluctuate, so a fresh valuation is required." },
+            { category: 'Equity & M54', q: "For Creditfix cases, where are cases referred for equity release review?", options: ["HMRC", "Select Partnership", "The debtor’s employer", "A car dealership"], correct: 1, rationale: "Select Partnership handles the professional equity reviews for Creditfix." },
+            { category: 'Equity & M54', q: "For Hanover / EG cases, what evidence does the debtor need to send?", options: ["Two attempts to remortgage", "Two payslips only", "Two death certificates", "Two invoices"], correct: 0, rationale: "Proof of inability to remortgage is required for these specific case types." },
+            { category: 'Equity & M54', q: "Remortgage may result in which outcome?", options: ["PIF / FF", "Immediate bankruptcy only", "No action ever", "Automatic closure without review"], correct: 0, rationale: "Successful remortgage can lead to Payment in Full (PIF) or Full and Final (FF)." },
+
+            { category: 'Protocols', q: "Under Protocol 2016, if remortgage is successful, the case may proceed as:", options: ["PIF / FF", "Tax rebate", "Gambling win", "Gift"], correct: 0, rationale: "Protocol 2016 allows remortgage funds to settle the IVA." },
+            { category: 'Protocols', q: "Under Protocol 2016, if the debtor is not eligible for remortgage, what may happen?", options: ["12-month extension or FF", "IVA ends immediately", "Debtor keeps all equity", "Property restriction is removed immediately"], correct: 0, rationale: "A 12-month extension of contributions is the standard alternative." },
+            { category: 'Protocols', q: "Under Protocol 2016, what third-party sum may be introduced?", options: ["50% of annual income", "85% of the value of the consumer’s interest in the property", "£500 only", "100% of gambling winnings"], correct: 1, rationale: "The 85% rule caps the equity contribution." },
+            { category: 'Protocols', q: "Under Protocol 2016, if additional monthly contributions are made, how many may be required?", options: ["3", "6", "12", "24"], correct: 2, rationale: "12 months is the standard extension period." },
+            { category: 'Protocols', q: "Under Protocol 2016, the total amount paid to the supervisor is capped at:", options: ["50% of monthly income", "85% of the consumer’s interest in the property", "£500", "The car sale value"], correct: 1, rationale: "85% is the maximum equity requirement." },
+            { category: 'Protocols', q: "Under Protocol 2016, what may be required for a third-party sum / 12-month contribution solution?", options: ["A variation", "A death certificate", "A gambling statement", "A pension check"], correct: 0, rationale: "Significant changes like these require a formal variation." },
+
+            { category: 'Protocols', q: "Under Protocol 2021 Pot One, equity based on 85% value less secured borrowings is:", options: ["Greater than £5,000 per debtor", "Less than £5,000 per debtor", "Always zero", "Always over £100,000"], correct: 1, rationale: "Pot One covers cases with low equity (under £5,000)." },
+            { category: 'Protocols', q: "Under Protocol 2021 Pot One, how long will the IVA last?", options: ["36 months", "48 months", "60 months", "72 months"], correct: 2, rationale: "Pot One cases default to 60 months." },
+            { category: 'Protocols', q: "Under Protocol 2021 Pot One, is there a month 54 equity review?", options: ["Yes", "No", "Only if HMRC is creditor", "Only if debtor is under 60"], correct: 1, rationale: "Pot One skips the month 54 review because equity is already determined to be low." },
+            { category: 'Protocols', q: "Under Protocol 2021 Pot One, what is placed on the property?", options: ["Restriction", "Mortgage", "Death certificate", "Invoice"], correct: 0, rationale: "A restriction ensures the supervisor is notified of a sale." },
+            { category: 'Protocols', q: "Under Protocol 2021 Pot One, when is the restriction removed?", options: ["On completion of IVA", "At month 12", "Before approval", "When a car is sold"], correct: 0, rationale: "The restriction stays until the IVA is successfully finished." },
+            { category: 'Protocols', q: "Under Protocol 2021 Pot One, if the property is sold during the IVA, what happens to net sale proceeds?", options: ["They are paid into the IVA", "Debtor keeps all proceeds", "They are ignored", "They are sent to HMRC automatically"], correct: 0, rationale: "Sale proceeds during the IVA are payable to creditors." },
+
+            { category: 'Protocols', q: "Under Protocol 2021 Pot Two, equity is greater than £5,000 per debtor and the debtor:", options: ["Meets lending criteria", "Does not meet lending criteria", "Has no property", "Has no secured borrowing"], correct: 1, rationale: "Pot Two is for high equity but no ability to remortgage." },
+            { category: 'Protocols', q: "Under Protocol 2021 Pot Two, how long will the IVA last?", options: ["60 months", "66 months", "72 months", "84 months"], correct: 2, rationale: "Pot Two cases last 72 months to compensate for no equity release." },
+            { category: 'Protocols', q: "Under Protocol 2021 Pot Two, is there a month 54 equity review?", options: ["Yes", "No", "Only if the debtor requests it", "Only if property is sold"], correct: 1, rationale: "Like Pot One, Pot Two has no M54 review because the term is already extended." },
+            { category: 'Protocols', q: "Under Protocol 2021 Pot Two, what happens to the restriction on completion?", options: ["It is removed", "It becomes permanent", "It converts to a tax rebate", "It is transferred to HMRC"], correct: 0, rationale: "All restrictions are lifted once the IVA completes." },
+            { category: 'Protocols', q: "Under Protocol 2021 Pot Two, if the property is sold during the IVA, net sale proceeds are:", options: ["Retained entirely by debtor", "Paid into the IVA", "Paid only to solicitor", "Written off"], correct: 1, rationale: "Sale proceeds belong to the arrangement." },
+
+            { category: 'Protocols', q: "Under Protocol 2021 Pot Three, equity is greater than £5,000 per debtor plus which other factor may apply?", options: ["DI greater than £100", "DI less than £10", "No secured borrowings", "No creditors"], correct: 0, rationale: "Pot Three is for high equity and higher disposable income (DI)." },
+            { category: 'Protocols', q: "Under Protocol 2021 Pot Three, age is relevant where the debtor is:", options: ["Aged over 80", "Aged under 60", "Exactly 65", "Under 18"], correct: 1, rationale: "Age under 60 is a trigger for Pot Three classification." },
+            { category: 'Protocols', q: "In a joint IVA under Protocol 2021 Pot Three, whose age is relevant?", options: ["Only the first debtor", "Either debtor", "Only the eldest debtor", "Neither debtor"], correct: 1, rationale: "If either party is under 60, Pot Three criteria apply." },
+            { category: 'Protocols', q: "Under Protocol 2021 Pot Three, the IVA will be proposed at:", options: ["36 months", "48 months", "60 months", "72 months"], correct: 3, rationale: "Pot Three defaults to a 72-month term." },
+            { category: 'Protocols', q: "Under Protocol 2021 Pot Three, is there a month 54 review of equity?", options: ["Yes", "No", "Only for rented cases", "Only for tax rebates"], correct: 0, rationale: "Pot Three includes a month 54 review to check for remortgage possibility." },
+            { category: 'Protocols', q: "Under Protocol 2021 Pot Three, if property is sold during IVA, net sale proceeds are:", options: ["Paid into the IVA", "Kept by debtor", "Sent to pension provider", "Ignored"], correct: 0, rationale: "Sale proceeds go to the IVA." },
+            { category: 'Protocols', q: "Under Protocol 2021 Pot Three, the debtor may make how many additional monthly payments?", options: ["3", "6", "12", "24"], correct: 2, rationale: "12 payments is the standard extension if remortgage fails." },
+            { category: 'Protocols', q: "Instead of 12 additional monthly payments, what may be introduced?", options: ["A third-party contribution equivalent to the total value of 12 additional payments", "A death certificate", "A new car purchase", "An invoice only"], correct: 0, rationale: "A lump sum can replace the 12 extra payments." },
+            { category: 'Protocols', q: "If a full and final offer is less than three contributions, what is stated in the training plan?", options: ["MOC required", "No MOC required", "IVA fails automatically", "Funds must be returned"], correct: 1, rationale: "Small F&F offers under 3 contributions don't require an MOC." },
+
+            { category: 'Protocols', q: "Under Protocol 2025, is there a month 54 review?", options: ["Yes", "No", "Only if equity is above £5,000", "Only if debtor is under 60"], correct: 1, rationale: "Protocol 2025 simplifies the process by removing the M54 review." },
+            { category: 'Protocols', q: "Under Protocol 2025, what is stated about interest on property sale?", options: ["Interest is always payable", "No interest on property sale", "Interest is payable only after 12 months", "Interest goes to debtor"], correct: 1, rationale: "The 2025 protocol explicitly states no interest on sales." },
+
+            { category: 'Gambling & Car Sales', q: "Under the IVA terms for gambling, how much can the client retain first?", options: ["£100", "£250", "£500", "£1,000"], correct: 2, rationale: "The first £500 of net winnings can be kept by the debtor." },
+            { category: 'Gambling & Car Sales', q: "After the first £500 gambling amount, what happens to the balance?", options: ["Paid into the IVA for creditors", "Paid to HMRC only", "Retained by debtor", "Ignored"], correct: 0, rationale: "Anything above £500 net gain is a windfall for the IVA." },
+            { category: 'Gambling & Car Sales', q: "When calculating how much is due from gambling, what should be offset?", options: ["Losses against wins", "Mortgage against pension", "Tax against property", "Car value against income"], correct: 0, rationale: "You only pay on the 'Net Gain' (Wins minus Stakes)." },
+            { category: 'Gambling & Car Sales', q: "A client gambles £1,000 and wins £900. What is the overall position?", options: ["£400 due into IVA", "£500 due into IVA", "Client has lost £100", "£900 due into IVA"], correct: 2, rationale: "The net result is a loss of £100, so nothing is due." },
+            { category: 'Gambling & Car Sales', q: "A client gambles £1,000 and wins £1,900. How much should be paid into the IVA?", options: ["£0", "£400", "£500", "£900"], correct: 1, rationale: "£1,900 win - £1,000 stake = £900. £900 - £500 allowance = £400." },
+            { category: 'Gambling & Car Sales', q: "Why is the client not allowed to retain £500 from a car sale automatically?", options: ["Because it is no longer an excluded asset and is not a windfall", "Because all car sales are gambling wins", "Because HMRC is always creditor", "Because Protocol 2025 applies"], correct: 0, rationale: "Cars are assets, and sales are not treated as windfalls like gifts or gambling." },
+            { category: 'Gambling & Car Sales', q: "If the client sells a car and uses the proceeds to buy another vehicle, what is the general treatment?", options: ["They may not be required to pay the used amount into the IVA", "They must pay all proceeds into IVA regardless", "They keep all surplus automatically", "The IVA closes"], correct: 0, rationale: "Proceeds reinvested into a necessary replacement car are usually protected." },
+            { category: 'Gambling & Car Sales', q: "If a car is sold for £3,000 and a new one is purchased for £2,000, how much is paid into the IVA?", options: ["£0", "£500", "£1,000", "£3,000"], correct: 2, rationale: "The £1,000 surplus is an asset of the IVA." },
+
+            { category: 'Gifts, Benefits, & Property', q: "A gift from a third party is treated as:", options: ["A windfall", "A tax rebate", "Equity", "A secured borrowing"], correct: 0, rationale: "Lump sums from third parties are classified as windfalls." },
+            { category: 'Gifts, Benefits, & Property', q: "For a third-party gift, how much can the debtor retain?", options: ["Nothing", "£250", "£500", "Full amount"], correct: 2, rationale: "Standard windfall allowance is £500." },
+            { category: 'Gifts, Benefits, & Property', q: "Which disability benefits are specifically mentioned as exceptions?", options: ["JSA / ESA", "PIP / DLA", "PAYE / CIS", "GTHP / FF"], correct: 1, rationale: "PIP and DLA are protected and not usually paid into the IVA." },
+            { category: 'Gifts, Benefits, & Property', q: "Backdated benefit payments relating to a pre-appointment period are:", options: ["100% due into the arrangement", "50% due into the arrangement", "Retained by the debtor", "Ignored"], correct: 0, rationale: "Pre-appointment backdated pay is an asset existing at approval." },
+            { category: 'Gifts, Benefits, & Property', q: "In a property sale case, what should be checked first?", options: ["Proposal clause to confirm amount due into IVA", "Gambling records", "Death certificate", "Car purchase invoice"], correct: 0, rationale: "The proposal clause defines how much equity is due to creditors." },
+
+            { category: 'Mixed Scenarios', q: "A debtor receives a PAYE rebate for a year during the IVA. What should happen?", options: ["Treat under additional income rule", "Treat as excluded asset", "Treat as deceased estate", "Ignore it"], correct: 0, rationale: "During the IVA, PAYE rebates follow the additional income (50/50) rule." },
+            { category: 'Mixed Scenarios', q: "A self-employed debtor receives a rebate and HMRC is a creditor. What should happen?", options: ["Full rebate paid into IVA", "Debtor keeps all", "Only £500 paid in", "No action"], correct: 0, rationale: "HMRC uses their right to offset if they are a creditor." },
+            { category: 'Mixed Scenarios', q: "A debtor sells a car for £5,000 and buys a replacement for £4,000. What is due into the IVA?", options: ["£0", "£500", "£1,000", "£5,000"], correct: 2, rationale: "The £1,000 surplus must be paid into the IVA." },
+            { category: 'Mixed Scenarios', q: "A debtor receives a £2,000 third-party gift. How much is generally paid into the arrangement?", options: ["£0", "£500", "£1,500", "£2,000"], correct: 2, rationale: "£2,000 total - £500 allowance = £1,500 due." },
+            { category: 'Mixed Scenarios', q: "In a Protocol 2021 Pot One case, the property is sold during the IVA. What happens to net sale proceeds?", options: ["Paid into IVA", "Debtor keeps them", "Paid to HMRC automatically", "Ignored because no month 54 review"], correct: 0, rationale: "Any sale during the IVA triggers the payment of net proceeds to creditors." },
+
+            // Bank 2 (Selection of key items mapped to existing categories)
+            { category: 'Deceased / PPI', q: "In a deceased rented case, which type of potential funds should be considered alongside pensions?", options: ["Gambling winnings", "Life insurance", "CIS rebate", "Property equity"], correct: 1, rationale: "Life insurance is a primary fund source in deceased cases." },
+            { category: 'Deceased / PPI', q: "Which document authorises another party to deal with a PPI or financial claim?", options: ["RX4", "Letter of Authority", "Death certificate", "Valuation report"], correct: 1, rationale: "LOA is the standard document for 3rd party authorisation." },
+            { category: 'Tax Rebates', q: "For PAYE, the key first question is usually whether the rebate relates to:", options: ["A period before or during the IVA", "A car purchase", "A property sale", "A deceased estate only"], correct: 0, rationale: "Timing determines if it is a pre-IVA asset or post-IVA income." },
+            { category: 'Tax Rebates', q: "In CIS cases, the proposal may show annual tax rebates as:", options: ["Assets coming into the IVA", "Property sale proceeds", "Disability benefits", "Deceased estate funds"], correct: 0, rationale: "Proposals often pre-define annual rebates as designated assets." },
+            { category: 'Self-Employed', q: "If HMRC is a creditor in a self-employed debtor’s IVA, the rebate should be:", options: ["Paid into the IVA in full", "Split equally with the debtor automatically", "Treated as a gift", "Ignored unless over £5,000"], correct: 0, rationale: "HMRC has specific rights to offset or claim full rebates when listed as a creditor." },
+            { category: 'Equity & M54', q: "Equity is calculated by starting with the property value and subtracting:", options: ["Mortgage, secured loan, or other charge", "Monthly food costs", "IVA supervisor fees only", "The debtor’s tax code"], correct: 0, rationale: "Total property value minus all secured debt equals equity." },
+            { category: 'Protocols', q: "Protocol 2025 changes the approach by stating there is:", options: ["No month 54 review", "A compulsory remortgage in month 54", "A compulsory 12-month extension", "A £500 windfall allowance only"], correct: 0, rationale: "Protocol 2025 removes the M54 milestone entirely." },
+            { category: 'Gambling & Car Sales', q: "A debtor stakes £750 gambling and wins £1,600. How much is due after retention?", options: ["£350", "£500", "£850", "£1,600"], correct: 0, rationale: "1600 - 750 = 850 net. 850 - 500 allowance = 350 due." },
+            { category: 'Mixed Scenarios', q: "A Protocol 2021 Pot One case has no month 54 review. Which statement remains true?", options: ["A restriction is still placed on the property", "Property sale proceeds are always retained by the debtor", "The IVA always lasts 72 months", "DI must be over £100"], correct: 0, rationale: "Restrictions are always placed even if review milestones change." },
+            { category: 'Gifts, Benefits, & Property', q: "A backdated benefit payment relating to a pre-appointment period is treated as:", options: ["Fully payable into the Arrangement", "Fully retained by the debtor", "A car sale surplus", "A remortgage attempt"], correct: 0, rationale: "Funds relating to the period before approval belong to the Arrangement." },
+
+            // Bank 3 (Additional questions from Training plan -Ken.docx)
+            { category: 'Deceased / PPI', q: "For a deceased rented case, which two fund sources should be checked together?", options: ["Life insurance and pension", "Car sale and equity", "PAYE and CIS rebates", "Gambling wins and gifts"], correct: 0, rationale: "The training plan highlights life insurance and pension checks for deceased rented cases." },
+            { category: 'Deceased / PPI', q: "In a closed financial mis-selling case, what should be reviewed after finding a resolution that ended the trust?", options: ["Any modifications at the variation meeting", "The debtor's current payslips", "Two remortgage attempts", "The vehicle purchase invoice"], correct: 0, rationale: "Where a resolution ended the trust, any meeting modifications should also be checked." },
+            { category: 'Deceased / PPI', q: "Which closed-case PPI check confirms whether funds can still be claimed after closure?", options: ["Whether the trust survives closure", "Whether the debtor is self-employed", "Whether the property has a restriction", "Whether the client has a new GTHP figure"], correct: 0, rationale: "Trust survival on termination or closure is central to whether closed-case redress is still due." },
+            { category: 'Tax Rebates', q: "A PAYE rebate from before IVA approval is treated as which type of item?", options: ["An existing IVA asset", "A post-appointment income review only", "A protected disability benefit", "A car sale surplus"], correct: 0, rationale: "Pre-approval PAYE rebates are deemed assets of the IVA." },
+            { category: 'Tax Rebates', q: "If a PAYE rebate suggests the debtor's income level was too low, what should staff consider?", options: ["Reviewing income and setting a new GTHP figure", "Removing the property restriction", "Returning all tax refunds automatically", "Closing the IVA without review"], correct: 0, rationale: "The document says a rebate may indicate the income level needs reviewing and a new GTHP figure may be needed." },
+            { category: 'Tax Rebates', q: "For CIS, why would only part of a rebate normally be requested if received at the time?", options: ["The additional income rule would apply over the normal income threshold", "CIS rebates are always protected benefits", "Only HMRC can receive CIS money", "CIS refunds are always under GBP500"], correct: 0, rationale: "The plan explains that only 50% of anything over 10% of normal monthly income would usually have been requested." },
+            { category: 'Self-Employed', q: "For a self-employed tax rebate, what is the key HMRC check?", options: ["Whether HMRC is listed as a creditor", "Whether HMRC issued a death certificate", "Whether HMRC owns the debtor's car", "Whether HMRC approved a remortgage"], correct: 0, rationale: "HMRC creditor status determines whether the full rebate must be paid into the IVA." },
+            { category: 'Self-Employed', q: "If HMRC is not a listed creditor for a self-employed debtor, the rebate is usually handled as:", options: ["Additional income", "A third-party gift", "A PPI redress claim", "Property sale proceeds"], correct: 0, rationale: "The document says self-employed rebates are treated as additional income where HMRC is not a creditor." },
+            { category: 'Equity & M54', q: "In the equity calculation, what happens after secured borrowing is deducted from property value?", options: ["The remaining equity is divided between the property owners", "The whole amount is sent to HMRC", "The debtor automatically keeps GBP500", "The IVA ends immediately"], correct: 0, rationale: "Equity is divided between owners after secured borrowing is deducted." },
+            { category: 'Equity & M54', q: "Why is a fresh property valuation needed at month 54?", options: ["The property value may have changed since the proposal was drafted", "The debtor's tax code may have changed", "The car may no longer be excluded", "PPI claims always expire at month 54"], correct: 0, rationale: "The month 54 review checks current equity because property values can change." },
+            { category: 'Equity & M54', q: "For Hanover / EG cases, what specifically should the debtor provide?", options: ["Evidence of two remortgage attempts", "A Financial Response Letter only", "A death certificate", "A gambling statement"], correct: 0, rationale: "The training plan says Hanover/EG debtors need to send evidence of two attempts to remortgage." },
+            { category: 'Protocols', q: "Under Protocol 2016, if the debtor cannot remortgage, which outcome is listed?", options: ["Either a 12-month extension or a full and final option", "Immediate removal of the restriction", "Automatic write-off of all equity", "A mandatory car sale"], correct: 0, rationale: "The plan lists a 12-month extension or FF where remortgage is not available." },
+            { category: 'Protocols', q: "Under Protocol 2021 Pot Two, which combination applies?", options: ["Equity over GBP5,000 per debtor plus not meeting lending criteria", "Equity under GBP5,000 per debtor plus a 60-month term only", "No property plus a month 54 review", "DI under GBP100 plus a 36-month term"], correct: 0, rationale: "Pot Two applies where equity is over GBP5,000 per debtor and lending criteria are not met." },
+            { category: 'Protocols', q: "Under Protocol 2021 Pot Three, which age condition can trigger the pot?", options: ["The debtor is under 60, or either debtor is under 60 in a joint IVA", "Both debtors are over 80", "The debtor is exactly 65", "The debtor is under 18"], correct: 0, rationale: "Pot Three includes cases where the debtor, or either debtor in a joint IVA, is aged under 60." },
+            { category: 'Protocols', q: "For Protocol 2021 Pot Three, what can replace 12 additional monthly payments?", options: ["A third-party contribution equal to the total value of 12 additional payments", "A GBP500 windfall allowance", "A draft completion statement", "A single payslip"], correct: 0, rationale: "The plan allows a third-party contribution equivalent to the 12 extra payments." },
+            { category: 'Gambling & Car Sales', q: "When gambling losses exceed wins, how much is due into the IVA?", options: ["Nothing, because there is no net gain", "The first GBP500", "All losses must be repaid", "50% of the stake"], correct: 0, rationale: "Losses are offset against wins, so no payment is due where there is no net gain." },
+            { category: 'Gambling & Car Sales', q: "A car is sold and all proceeds are used to buy a replacement vehicle. What is the likely treatment?", options: ["No payment is required from those used proceeds", "The debtor must still pay GBP500", "The full sale price is always due", "It is treated as a gambling win"], correct: 0, rationale: "The document says proceeds used to purchase another vehicle may not need to be paid in." },
+            { category: 'Gifts, Benefits, & Property', q: "Which backdated benefits are specifically carved out as exceptions in the plan?", options: ["PIP / DLA", "PAYE / CIS", "PIF / FF", "M54 / RX4"], correct: 0, rationale: "Disability benefits such as PIP and DLA are identified as exceptions." },
+            { category: 'Gifts, Benefits, & Property', q: "A post-appointment backdated benefit payment should be considered as:", options: ["Additional income that may need assessment before deciding the amount due", "Always 100% due with no review", "A protected car sale asset", "A closed PPI trust issue"], correct: 0, rationale: "Post-appointment backdated benefits may be additional income, but the amount due needs consideration." },
+            { category: 'Gifts, Benefits, & Property', q: "For a property sale, which document should be requested from the solicitor?", options: ["Letter of Authority", "Death certificate", "Gambling statement", "CIS tax return"], correct: 0, rationale: "The property sale section lists an LOA from the solicitor." },
+            { category: 'Gifts, Benefits, & Property', q: "In a property sale, what is the purpose of checking the proposal clause?", options: ["To confirm the amount due into the IVA", "To calculate gambling losses", "To decide if HMRC is a creditor", "To replace the completion statement"], correct: 0, rationale: "The proposal clause confirms how much should be paid into the IVA from a sale." },
+            { category: 'Gifts, Benefits, & Property', q: "Which undertaking is listed for property sale cases?", options: ["RX4 undertaking", "GTHP undertaking", "PPI undertaking", "CIS undertaking"], correct: 0, rationale: "The training plan specifically lists RX4 - Undertaking for property sale work." },
+            { category: 'Mixed Scenarios', q: "A debtor receives a post-appointment backdated benefit payment that is not PIP or DLA. What is the best next treatment?", options: ["Assess it as additional income before deciding the IVA payment", "Return it automatically because all benefits are excluded", "Treat it as a pre-appointment asset automatically", "Treat it as property equity"], correct: 0, rationale: "Post-appointment benefit back payments may be additional income and require consideration before deciding the amount due." },
+            { category: 'Mixed Scenarios', q: "A property is sold during a Protocol 2021 Pot Two IVA. What happens to the net sale proceeds?", options: ["They are paid into the IVA", "They are retained because there is no month 54 review", "They are treated as a PAYE rebate", "They are ignored if lending criteria were not met"], correct: 0, rationale: "The plan says net sale proceeds are paid into the IVA if the property is sold during Pot Two." }
+        ];
+
+            const RAW_DATA = SOURCE_DATA.map(({ category, q, options, correct, rationale }) => ({
+                c: category,
+                q,
+                o: options,
+                a: correct,
+                r: rationale
+            }));
+            const SESSION_KEY = 'iva_audit_secure_v5';
             let state = {
                 user: '',
                 view: 'auth',
@@ -173,6 +429,16 @@
             });
 
             function save() { localStorage.setItem(SESSION_KEY, JSON.stringify(state)); }
+
+            function escapeHtml(value) {
+                return String(value).replace(/[&<>"']/g, ch => ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#39;'
+                }[ch]));
+            }
             
             function load() {
                 const s = localStorage.getItem(SESSION_KEY);
@@ -181,11 +447,14 @@
 
             function render() {
                 document.querySelectorAll('main > div').forEach(d => d.classList.add('hidden'));
+                document.getElementById('current-user-display').innerText = state.user ? `Candidate: ${state.user}` : 'Waiting for Candidate...';
+                document.getElementById('progress-container').classList.add('hidden');
+                document.getElementById('timer-display').classList.add('hidden');
+                document.getElementById('timer-display').classList.remove('timer-warning');
                 if (state.view === 'auth') {
                     document.getElementById('auth-view').classList.remove('hidden');
                 } else if (state.view === 'menu') {
                     document.getElementById('menu-view').classList.remove('hidden');
-                    document.getElementById('current-user-display').innerText = `Staff: ${state.user}`;
                     buildMenu();
                 } else if (state.view === 'quiz') {
                     document.getElementById('quiz-view').classList.remove('hidden');
@@ -203,36 +472,71 @@
             function buildMenu() {
                 const cats = [...new Set(RAW_DATA.map(x => x.c))];
                 let html = `
-                    <div class="mb-8"><h2 class="text-3xl font-extrabold text-slate-900 mb-2">Training Modules</h2><p class="text-slate-600">Secure audit environment active.</p></div>
-                    <div class="mb-8 bg-gradient-to-br from-indigo-600 to-blue-700 rounded-3xl p-6 text-white shadow-xl">
-                        <div class="flex flex-col md:flex-row items-center gap-6">
-                            <div class="flex-1 text-center md:text-left">
-                                <h3 class="text-2xl font-bold mb-1">⏱️ Quick 25 Assessment</h3>
-                                <p class="text-indigo-100 text-sm">Randomized cross-topic exam with countdown.</p>
+                    <section class="panel grid grid-cols-1 lg:grid-cols-12 mb-8 overflow-hidden">
+                        <div class="lg:col-span-8 p-7 sm:p-10 bg-white border-b lg:border-b-0 lg:border-r border-slate-200">
+                            <span class="exam-label">Home</span>
+                            <h2 class="mt-4 text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-slate-950">Welcome, ${escapeHtml(state.user)}</h2>
+                            <p class="mt-5 max-w-2xl text-sm sm:text-base font-medium leading-relaxed text-slate-600">Choose a focused practice category, run a timed quick exam, or launch the full MCQ bank.</p>
+                        </div>
+                        <div class="lg:col-span-4 p-7 sm:p-10 flex flex-col justify-between gap-8 bg-slate-50">
+                            <div>
+                                <span class="exam-label">Question bank</span>
+                                <div class="mt-4 text-6xl font-black tracking-tight text-slate-950">${RAW_DATA.length}</div>
+                                <p class="mt-2 text-sm font-bold text-slate-600">questions available</p>
                             </div>
-                            <div class="flex items-center gap-3 w-full md:w-auto">
-                                <select id="dur" class="bg-white/20 border border-white/30 text-white rounded-xl px-4 py-3 focus:outline-none flex-1 font-semibold">
-                                    <option value="600" class="text-slate-900">10 Min</option>
-                                    <option value="900" class="text-slate-900" selected>15 Min</option>
-                                    <option value="1200" class="text-slate-900">20 Min</option>
-                                </select>
-                                <button onclick="window.quizApp.startQuick()" class="bg-white text-indigo-700 font-bold px-8 py-3 rounded-xl shadow-lg active:scale-95 whitespace-nowrap">Start Exam</button>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="stat-card p-4">
+                                    <div class="text-4xl font-black text-slate-950">${cats.length}</div>
+                                    <div class="text-[11px] font-black uppercase tracking-[0.12em] text-slate-500">categories</div>
+                                </div>
+                                <div class="stat-card p-4">
+                                    <div class="text-4xl font-black text-blue-700">25</div>
+                                    <div class="text-[11px] font-black uppercase tracking-[0.12em] text-slate-500">quick exam</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+                    </section>
+                    <section class="panel mb-8 grid grid-cols-1 lg:grid-cols-12 overflow-hidden">
+                        <div class="lg:col-span-7 p-6 sm:p-8 bg-white border-b lg:border-b-0 lg:border-r border-slate-200">
+                            <span class="exam-label">Timed Exam</span>
+                            <h3 class="mt-3 text-3xl sm:text-4xl font-black tracking-tight leading-tight text-slate-950">Quick 25 Assessment</h3>
+                            <p class="mt-3 text-sm font-medium leading-relaxed max-w-xl text-slate-600">Randomized cross-topic assessment with countdown.</p>
+                        </div>
+                        <div class="lg:col-span-5 p-6 sm:p-8 bg-slate-50">
+                            <div class="flex-1">
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-4">
+                                <select id="dur" class="bg-white border border-slate-200 text-slate-950 px-4 py-3 focus:outline-none font-bold min-h-[52px] exam-focus">
+                                    <option value="600">10 Min</option>
+                                    <option value="900" selected>15 Min</option>
+                                    <option value="1200">20 Min</option>
+                                </select>
+                                <button onclick="window.quizApp.startQuick()" class="exam-button exam-focus px-8 py-3 whitespace-nowrap">Start Exam</button>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="panel mb-8 overflow-hidden">
+                        <div class="grid grid-cols-12 bg-slate-50 text-slate-500 border-b border-slate-200">
+                            <div class="col-span-2 sm:col-span-1 p-4 text-xs font-black uppercase tracking-[0.12em]">No.</div>
+                            <div class="col-span-7 sm:col-span-8 p-4 text-xs font-black uppercase tracking-[0.12em]">Practice Categories</div>
+                            <div class="col-span-3 p-4 text-right text-xs font-black uppercase tracking-[0.12em]">Items</div>
+                        </div>
                 `;
-                cats.forEach(c => {
+                cats.forEach((c, i) => {
                     html += `
-                        <div onclick="window.quizApp.start('${c}')" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition-all">
-                            <h3 class="font-bold text-slate-800">${c}</h3>
-                            <p class="text-xs text-slate-400 mt-1">${RAW_DATA.filter(x => x.c === c).length} Questions</p>
+                        <div onclick="window.quizApp.start('${c}')" class="grid grid-cols-12 border-t border-slate-200 cursor-pointer transition-all hover:bg-blue-50/70 group">
+                            <div class="col-span-2 sm:col-span-1 p-4 sm:p-5 font-black text-xl text-slate-400">${String(i + 1).padStart(2, '0')}</div>
+                            <div class="col-span-7 sm:col-span-8 p-4 sm:p-5 border-l border-slate-200">
+                                <h3 class="font-black text-lg sm:text-xl tracking-tight leading-tight text-slate-950 group-hover:text-blue-700">${c}</h3>
+                                <p class="text-xs mt-1 font-semibold text-slate-500">Focused practice module</p>
+                            </div>
+                            <div class="col-span-3 p-4 sm:p-5 border-l border-slate-200 text-right font-black text-lg text-blue-700">${RAW_DATA.filter(x => x.c === c).length}</div>
                         </div>
                     `;
                 });
-                html += `</div><button onclick="window.quizApp.start('All')" class="w-full bg-slate-900 text-white p-8 rounded-2xl shadow-xl hover:bg-black transition-all text-left flex justify-between items-center group overflow-hidden relative">
-                    <div class="relative z-10"><h3 class="text-2xl font-bold mb-1">Full 200 MCQ Master Bank</h3><p class="text-slate-400 text-sm">Comprehensive assessment.</p></div>
-                    <div class="bg-white/10 p-4 rounded-xl z-10 font-black text-xl">200 Qs</div>
+                html += `</section><button onclick="window.quizApp.start('All')" class="exam-button-secondary exam-focus w-full p-6 sm:p-8 text-left grid grid-cols-1 sm:grid-cols-12 gap-4 items-center group">
+                    <div class="sm:col-span-9"><span class="exam-label">Complete bank</span><h3 class="text-3xl sm:text-4xl font-black tracking-tight leading-tight mt-2 text-slate-950">Full MCQ Master Bank</h3></div>
+                    <div class="sm:col-span-3 text-left sm:text-right text-5xl font-black tracking-tight text-blue-700">${RAW_DATA.length}</div>
                 </button>`;
                 document.getElementById('dashboard-content').innerHTML = html;
             }
@@ -248,8 +552,8 @@
                 cont.innerHTML = '';
                 q.o.forEach((o, i) => {
                     const b = document.createElement('button');
-                    b.className = "option-btn w-full text-left p-5 rounded-2xl border-2 border-slate-100 hover:border-blue-200 transition-all font-medium flex items-center gap-4";
-                    b.innerHTML = `<span class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-400">${String.fromCharCode(65 + i)}</span><span>${o}</span>`;
+                    b.className = "option-btn exam-focus w-full text-left p-4 sm:p-5 border border-slate-200 bg-white hover:border-blue-300 hover:bg-blue-50/60 transition-all font-semibold text-slate-800 flex items-start gap-4";
+                    b.innerHTML = `<span class="option-letter shrink-0 w-9 h-9 border border-slate-200 bg-slate-50 text-slate-500 rounded-lg flex items-center justify-center text-xs font-black transition-colors">${String.fromCharCode(65 + i)}</span><span class="leading-relaxed">${o}</span>`;
                     b.onclick = () => check(i);
                     cont.appendChild(b);
                 });
@@ -314,17 +618,17 @@
                 Object.entries(state.stats).forEach(([c, d]) => {
                     const acc = Math.round((d.c / d.t) * 100);
                     const div = document.createElement('div');
-                    div.className = `p-3 rounded-xl border flex justify-between items-center ${acc < 80 ? 'bg-red-50 border-red-100' : 'bg-green-50 border-green-100'}`;
-                    div.innerHTML = `<span class="text-xs font-bold">${c}</span><span class="text-xs font-black">${acc}%</span>`;
+                    div.className = `p-3 rounded-lg border flex justify-between items-center font-bold ${acc < 80 ? 'bg-amber-50 border-amber-200 text-amber-900' : 'bg-emerald-50 border-emerald-200 text-emerald-900'}`;
+                    div.innerHTML = `<span class="text-xs">${c}</span><span class="text-xs font-black">${acc}%</span>`;
                     list.appendChild(div);
                 });
                 
                 const icon = document.getElementById('res-icon');
                 if (state.score / state.questions.length >= 0.8) {
-                    icon.className = "w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6";
+                    icon.className = "w-16 h-16 bg-emerald-100 text-emerald-700 rounded-lg flex items-center justify-center mt-8 mb-8";
                     icon.innerHTML = '<svg class="w-10 h-10" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293l-4 4a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L9 10.586l3.293-3.293a1 1 0 011.414 1.414z"/></svg>';
                 } else {
-                    icon.className = "w-20 h-20 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-6";
+                    icon.className = "w-16 h-16 bg-amber-100 text-amber-700 rounded-lg flex items-center justify-center mt-8 mb-8";
                     icon.innerHTML = '<svg class="w-10 h-10" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"/></svg>';
                 }
             }
